@@ -6,10 +6,11 @@ José Lambrechts
 */
 
 #include <stdio.h>
+#include <string.h>
 #define MAX_CADENA 50
 #define CADENA_SIN_TERMINADOR -1
-#define OVERFLOW_CADENA -2
-#define CADENA_INVALIDA -3
+#define OVERFLOW_CADENA -3
+#define INDICE_INVALIDO -5
 
 /* Prototipos funcionales */
 int largo_cadena(int largo_cadena, char cadena[]);
@@ -18,8 +19,14 @@ int insertar_cadena(int len_cad1, int len_cad2, int posicion,
 
 int main(int argc, char *argv[])
 {   int resultado;
-    resultado = largo_cadena(5, "asdfaaa");
-    printf("%d", resultado);
+    char cadena1[MAX_CADENA];
+    char cadena2[MAX_CADENA];
+    
+    strcpy(cadena1,"ASDF");
+    strcpy(cadena2,"bc");
+
+    insertar_cadena(MAX_CADENA,3,2,cadena1,cadena2);
+    printf("%s", cadena1);
    return 0;
 }
 
@@ -69,7 +76,9 @@ int largo_cadena(int largo_cadena, char cadena[])
 *       posicion es un entero < len_cad 1.
 *       cad_original, cad_insertar son punteros no nulos a cadenas de caracteres.
 *  @return  se devuelve un entero == 0 si se pudo ejecutar la insercion y != 0 si 
-*           hubo error, los códigos de error están definidos en  #define.
+*           hubo error, los códigos de error están definidos en  #define y se suman
+*           para devolver el acumulado de los errores. Si se excede 
+*           la capacidad de cad_original no se inserta y se devuelve el error OVERFLOW_CADENA
 *  @post    cad_original se modifica, con la inserción de cad_insertar en el
 *           índice posicion, cad_insertar no se modifica.
  **/
@@ -77,11 +86,11 @@ int insertar_cadena(int len_cad1, int len_cad2, int posicion,
                     char cad_original[], char cad_insertar[])
 {
     int resultado = 0;
-    int total_caracteres;
+    int total_caracteres, i;
     char cad_auxiliar[MAX_CADENA];
     if(largo_cadena(len_cad1, cad_original) == -1)
     {
-        resultado = CADENA_INVALIDA;
+        resultado = CADENA_SIN_TERMINADOR;
     }
     else
     {
@@ -89,11 +98,40 @@ int insertar_cadena(int len_cad1, int len_cad2, int posicion,
     }
     if(largo_cadena(len_cad2, cad_insertar) == -1)
     {
-        resultado = CADENA_INVALIDA;
+        resultado = CADENA_SIN_TERMINADOR;
     }
     else
     {
-        total_caracteres = largo_cadena(len_cad1, cad_original);
+        total_caracteres = total_caracteres + largo_cadena(len_cad2, cad_insertar);
     }
-
+    if (total_caracteres > len_cad1)
+    {
+        resultado = resultado + OVERFLOW_CADENA;
+    }
+    if (posicion > len_cad1)
+    {
+        resultado = resultado + INDICE_INVALIDO;
+    }
+    if (resultado == 0)
+    /* si se dan las condiciones inserto una cadena en otra */
+    {
+        for(i = posicion; i <= len_cad1; i++)
+        /* i <= len_cad1 incluye \0 */
+        {
+            cad_auxiliar[i - posicion] = cad_original[i];
+            /* copiar en aux comenzando en posicion 0 */
+        }
+        for(i = posicion; i < len_cad1; i++)
+        {
+            cad_original[i] = cad_insertar[i - posicion];
+        }
+        int posicion_subcad_final = posicion + largo_cadena(len_cad2, cad_insertar);
+        /* en este indice hay que comenzar a copiar la segunda parte de cad_original */
+        for (i = posicion_subcad_final; i < total_caracteres; i++)
+        {
+            cad_original[i] = cad_auxiliar[i -posicion_subcad_final];
+        }
+        
+    }
+    return resultado;
 }
