@@ -35,40 +35,72 @@ int es_palindromo(int len_cad, char cadena[]);
 int main(int argc, char *argv[])
 /* se espera que argv[] contenga un dos cadenas que luego se utilizaran 
 para llamar a las funciones  */
-{   int resultado, posicion, cantidad;
+{   int resultado, posicion, cantidad, comparador;
     char cadena1[MAX_CADENA];
     char cadena2[MAX_CADENA];
     
     if (argc > 2)
-    {
+    {/* pruebo todas las funciones definidas */
         srand(time(0)); 
         strcpy(cadena1, argv[1]);
         strcpy(cadena2, argv[2]);
         printf("La cadena 1 es: %s\n", cadena1);
         printf("La cadena 2 es: %s\n", cadena2);
+
         cantidad = contador_caracteres(MAX_CADENA, cadena1);
         printf("cadena 1 tiene %d caracteres alfanumericos\n", cantidad);
         cantidad = contador_simbolos(MAX_CADENA, cadena1);
         printf("La cadena 1 tiene %d simbolos\n", cantidad);
         printf("Se eliminan todos los simbolos\n");
+
         limpia_cadena(MAX_CADENA, cadena1);
         limpia_cadena(MAX_CADENA, cadena2);
         printf("-> %s  -> %s sin simbolos\n", cadena1, cadena2);
+
+        inversor_cadena(MAX_CADENA, cadena1);
+        printf("La cadena 1 invertida es: %s\n", cadena1);
 
         posicion = largo_cadena(MAX_CADENA, cadena1);
         posicion = rand() % posicion; /* busco un valor aleatorio donde insertar */
         printf("Se insertará cadena2 en la posicion %d\n", posicion);
         insertar_cadena(MAX_CADENA,MAX_CADENA,posicion, cadena1, cadena2);
         printf("%s\n", cadena1);
+
         printf("se copia cadena 2 al final de la nueva cadena 1\n");
         copia_cadenas(MAX_CADENA, MAX_CADENA, cadena1, cadena2);
         printf("%s\n", cadena1);
 
+        if(es_palindromo(MAX_CADENA, cadena1))
+        {
+            printf("La cadena %s es palindromo\n", cadena1);
+        }
+        else
+        {
+            printf("La cadena %s no es palindromo\n", cadena1);
+        }
 
+        comparador = compara_cadena(MAX_CADENA,MAX_CADENA, cadena1, cadena2);
+        if (comparador == -1)
+        {
+            printf("%s es mayor que %s\n", cadena1, cadena2);
+        }
+        else if (comparador == 1)
+        {
+            printf("%s es mayor que %s\n", cadena2, cadena1);
+        }
+        else if (comparador == 0)
+        {
+            printf("ambas cadenas son iguales\n");
+        }
+
+    }/* si no hay parametros no se llaman a las funciones del programa */
+    else
+    {
+        resultado = PARAMETROS_INSUFICIENTES;
     }
     
     
-    return 0;
+    return resultado;
 }
 
 
