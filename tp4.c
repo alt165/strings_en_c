@@ -16,6 +16,8 @@ José Lambrechts
 int largo_cadena(int largo_cadena, char cadena[]);
 int insertar_cadena(int len_cad1, int len_cad2, int posicion,
                     char cad_original[], char cad_insertar[]);
+int copia_cadenas(int len_cad1, int len_cad2, char cad_original[],
+                    char cad_copiar[]);
 
 int main(int argc, char *argv[])
 {   int resultado;
@@ -23,9 +25,9 @@ int main(int argc, char *argv[])
     char cadena2[MAX_CADENA];
     
     strcpy(cadena1,"ASDF");
-    strcpy(cadena2,"bc");
+    strcpy(cadena2,"bcdef");
 
-    insertar_cadena(MAX_CADENA,3,2,cadena1,cadena2);
+    insertar_cadena(MAX_CADENA,MAX_CADENA,2,cadena1,cadena2);
     printf("%s", cadena1);
    return 0;
 }
@@ -64,8 +66,8 @@ int largo_cadena(int largo_cadena, char cadena[])
 /** 
 * La funcion inserta cad_insertar en cad_original en el índice 
 * representado en posicion.
-*  @param len_cad1 es el largo de cad_original.
-*  @param len_cad2 es el largo de cad_insertar.
+*  @param len_cad1 es el largo disponible de cad_original.
+*  @param len_cad2 es el largo disponible cad_insertar.
 *  @param posicion es la posicion en la que 
 *                  se insertará cad_insertar.
 *  @param cad_original  es la direccion de la cadena en la que se insertará
@@ -73,7 +75,7 @@ int largo_cadena(int largo_cadena, char cadena[])
 *  @param cad_insertar  es la direccion de la cadena que se insertará
 *
 *  @pre len_cad1, len_cad2 son un enteros > 0.
-*       posicion es un entero < len_cad 1.
+*       posicion es un entero < len_cad1.
 *       cad_original, cad_insertar son punteros no nulos a cadenas de caracteres.
 *  @return  se devuelve un entero == 0 si se pudo ejecutar la insercion y != 0 si 
 *           hubo error, los códigos de error están definidos en  #define y se suman
@@ -127,7 +129,7 @@ int insertar_cadena(int len_cad1, int len_cad2, int posicion,
         }
         int posicion_subcad_final = posicion + largo_cadena(len_cad2, cad_insertar);
         /* en este indice hay que comenzar a copiar la segunda parte de cad_original */
-        for (i = posicion_subcad_final; i < total_caracteres; i++)
+        for (i = posicion_subcad_final; i <= total_caracteres; i++)
         {
             cad_original[i] = cad_auxiliar[i -posicion_subcad_final];
         }
@@ -135,3 +137,31 @@ int insertar_cadena(int len_cad1, int len_cad2, int posicion,
     }
     return resultado;
 }
+
+/** 
+* La funcion inserta cad_copiar en cad_original al final de cad_original. 
+*  @param len_cad1 es el largo disponible de cad_original.
+*  @param len_cad2 es el largo disponible cad_insertar.
+*  @param cad_original  es la direccion de la cadena en la que se insertará
+*                       cad_insertar.
+*  @param cad_copiar  es la direccion de la cadena que se insertará
+*
+*  @pre len_cad1, len_cad2 son un enteros > 0.
+*       cad_original, cad_copiar son punteros no nulos a cadenas de caracteres.
+*  @return  se devuelve un entero == 0 si se pudo ejecutar la insercion y != 0 si 
+*           hubo error, los códigos de error están definidos en  #define y se suman
+*           para devolver el acumulado de los errores. Si se excede 
+*           la capacidad de cad_original no se inserta y se devuelve el error OVERFLOW_CADENA
+*  @post    cad_original se modifica, con la inserción de cad_insertar en el
+*           índice posicion, cad_copiar no se modifica.
+ **/
+int copia_cadenas(int len_cad1, int len_cad2, char cad_original[],
+                    char cad_copiar[])
+{
+    int resultado = 0;
+    int posicion;
+    posicion = largo_cadena(len_cad1, cad_original);
+    resultado = insertar_cadena(len_cad1, len_cad2,posicion, cad_original, cad_copiar);
+    return resultado;
+}
+                    
