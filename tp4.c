@@ -22,6 +22,7 @@ int copia_cadenas(int len_cad1, int len_cad2, char cad_original[],
                     char cad_copiar[]);
 int limpia_cadena(int len_cad, char cadena[]);
 int es_alfanum(char c);
+int inversor_cadena(int len_cad, char cadena[]);
 
 int main(int argc, char *argv[])
 {   int resultado;
@@ -33,10 +34,10 @@ int main(int argc, char *argv[])
 
     insertar_cadena(MAX_CADENA,MAX_CADENA,2,cadena1,cadena2);
     printf("%s", cadena1);*/
-    strcpy(cadena1,"ASDFñas852/*as+");
+    strcpy(cadena1,"asdfgh");
     printf("%s", cadena1);
     printf("\n");
-    resultado = limpia_cadena(MAX_CADENA, cadena1);
+    resultado = inversor_cadena(MAX_CADENA,cadena1);
     printf("%s", cadena1);
     printf("\n");
     printf("%d", resultado);
@@ -243,3 +244,19 @@ int es_alfanum(char c)
     return resultado;
 }
 
+int inversor_cadena(int len_cad, char cadena[])
+{
+    char cadena_auxiliar[len_cad];
+    int resultado = 0;
+    int i;
+    resultado = largo_cadena(len_cad, cadena);
+    if (resultado > 0)
+    {
+        for(i = resultado - 1; i >= 0; i--)
+        {
+            cadena_auxiliar[resultado - i - 1] = cadena[i];
+        }
+        strcpy(cadena, cadena_auxiliar);
+    }
+    return resultado;
+}
