@@ -27,6 +27,7 @@ int compara_cadena(int len_cad1, int len_cad2, char cadena1[], char cadena2[]);
 int contador_caracteres(int len_cad, char cadena[]);
 int contador_simbolos(int len_cad, char cadena[]);
 int mayus_a_minus(int len_cad, char cadena[]);
+int es_palindromo(int len_cad, char cadena[]);
 
 int main(int argc, char *argv[])
 {   int resultado;
@@ -38,14 +39,14 @@ int main(int argc, char *argv[])
 
     insertar_cadena(MAX_CADENA,MAX_CADENA,2,cadena1,cadena2);
     printf("%s", cadena1);*/
-    strcpy(cadena1,"aDFabc");
+    strcpy(cadena1,"aDFfda");
     printf("%s", cadena1);
     printf("\n");
     strcpy(cadena2,"aaabca");
-    mayus_a_minus(MAX_CADENA, cadena1);
+    resultado = es_palindromo(MAX_CADENA, cadena1);
     printf("%s", cadena1);
-    printf("\n");/* 
-    printf("%d", resultado); */
+    printf("\n");
+    printf("%d", resultado);
  return 0;
 }
 
@@ -409,4 +410,36 @@ int mayus_a_minus(int len_cad, char cadena[])
         }
     }
     return largo;
+}
+
+/** 
+* La funcion evalua una cadena para saber si es palíndromo.
+* La funcion no tiene en cuenta mayusculas o minusculas del 
+* set de carácteres estandar del inglés.
+*  @param len_cad es el largo disponible de cadena.
+*  @param cadena  es la direccion de la cadena que se evaluará.
+*  @pre len_cad1 es un entero > 0.
+*       cadena es un puntero no nulo a una cadena de caracteres.
+*  @return  devuelve TRUE si es palíndromo y FALSE si no lo es.
+*  @post    la cadena no se modifica.
+ **/
+int es_palindromo(int len_cad, char cadena[])
+{
+    char cadena_minusculas[len_cad];  
+    int resultado = TRUE;
+    int i = 0;
+    int j;
+    strcpy(cadena_minusculas,cadena);
+    mayus_a_minus(len_cad, cadena_minusculas);
+    j = largo_cadena(len_cad, cadena_minusculas) - 1;
+    while (i < j && resultado == TRUE)
+    {
+        if(cadena_minusculas[i] != cadena_minusculas[j])
+        {
+            resultado = FALSE;                      
+        }
+        i++;
+        j--;
+    }
+    return resultado;
 }
