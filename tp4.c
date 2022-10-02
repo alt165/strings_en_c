@@ -33,10 +33,12 @@ int main(int argc, char *argv[])
 
     insertar_cadena(MAX_CADENA,MAX_CADENA,2,cadena1,cadena2);
     printf("%s", cadena1);*/
-   resultado = es_alfanum('a');
-   
-    printf("%d", resultado);
-
+    strcpy(cadena1,"ASDFñas852/*as+");
+    printf("%s", cadena1);
+    printf("\n");
+    limpia_cadena(MAX_CADENA, cadena1);
+    printf("%s", cadena1);
+    printf("\n");
  return 0;
 }
 
@@ -215,6 +217,7 @@ int limpia_cadena(int len_cad, char cadena[])
         }
         
     }
+    strcpy(cadena, cad_auxiliar);
     return resultado;
 }
 
