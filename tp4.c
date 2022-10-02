@@ -332,6 +332,15 @@ int compara_cadena(int len_cad1, int len_cad2, char cadena1[], char cadena2[])
     return resultado;
 }
 
+/** 
+* La funcion cuenta la cantidad de caracteres alfanumericos de una cadena.
+*  @param len_cad es el largo disponible de cadena.
+*  @param cadena  es la direccion de la cadena que se evaluará.
+*  @pre len_cad1 es un entero > 0.
+*       cadena es un puntero no nulo a una cadena de caracteres.
+*  @return  se devuelve un entero con la cantidad de caracterse sumada.
+*  @post    la cadena no se modifica.
+ **/
 int contador_caracteres(int len_cad, char cadena[])
 {
     int contador = 0;
@@ -347,7 +356,15 @@ int contador_caracteres(int len_cad, char cadena[])
     return contador;
 }
 
-
+/** 
+* La funcion cuenta la cantidad de caracteres no alfanumericos de una cadena.
+*  @param len_cad es el largo disponible de cadena.
+*  @param cadena  es la direccion de la cadena que se evaluará.
+*  @pre len_cad1 es un entero > 0.
+*       cadena es un puntero no nulo a una cadena de caracteres.
+*  @return  se devuelve un entero con la cantidad de simbolos sumada.
+*  @post    la cadena no se modifica.
+ **/
 int contador_simbolos(int len_cad, char cadena[])
 {
     int contador = 0;
@@ -363,15 +380,33 @@ int contador_simbolos(int len_cad, char cadena[])
     return contador;
 }
 
+/** 
+* La funcion pasa todos los caracteres de una cadena a minusculas.
+* la funcion no modifica caracteres que no sean del idioma inglés.
+*  @param len_cad es el largo disponible de cadena.
+*  @param cadena  es la direccion de la cadena que se moficará.
+*  @pre len_cad1 es un entero > 0.
+*       cadena es un puntero no nulo a una cadena de caracteres.
+*  @return  si se pudo modificar se devuelve el largo de la cadena.
+            si no se puedo modificar porque la cadena no tiene terminador
+            se devuelve -1.
+*  @post    la cadena queda moficiada con todos sus caracteres en minusculas
+*           y en el mismo orden.
+ **/
 int mayus_a_minus(int len_cad, char cadena[])
 {
     int i, largo;
     largo = largo_cadena(len_cad, cadena);
-    for (i = 0; i < largo; i++)
+    if (largo > 0)
     {
-        if(cadena[i] > 'A' && cadena[i] < 'Z')
+        for (i = 0; i < largo; i++)
         {
-            cadena[i] = cadena[i] + 32;
+            if(cadena[i] > 'A' && cadena[i] < 'Z')
+            {
+                cadena[i] = cadena[i] + 32;
+                /* 32 es la distanca en ascii entre mayusculas y minusculas */
+            }
         }
     }
+    return largo;
 }
