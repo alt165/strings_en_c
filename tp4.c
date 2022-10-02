@@ -11,6 +11,8 @@ José Lambrechts
 #define CADENA_SIN_TERMINADOR -1
 #define OVERFLOW_CADENA -3
 #define INDICE_INVALIDO -5
+#define TRUE 1
+#define FALSE 0
 
 /* Prototipos funcionales */
 int largo_cadena(int largo_cadena, char cadena[]);
@@ -18,18 +20,24 @@ int insertar_cadena(int len_cad1, int len_cad2, int posicion,
                     char cad_original[], char cad_insertar[]);
 int copia_cadenas(int len_cad1, int len_cad2, char cad_original[],
                     char cad_copiar[]);
+int limpia_cadena(int len_cad, char cadena[]);
+int es_alfanum(char c);
 
 int main(int argc, char *argv[])
 {   int resultado;
     char cadena1[MAX_CADENA];
     char cadena2[MAX_CADENA];
     
-    strcpy(cadena1,"ASDF");
+    /* strcpy(cadena1,"ASDF");
     strcpy(cadena2,"bcdef");
 
     insertar_cadena(MAX_CADENA,MAX_CADENA,2,cadena1,cadena2);
-    printf("%s", cadena1);
-   return 0;
+    printf("%s", cadena1);*/
+   resultado = es_alfanum('a');
+   
+    printf("%d", resultado);
+
+ return 0;
 }
 
 
@@ -148,8 +156,9 @@ int insertar_cadena(int len_cad1, int len_cad2, int posicion,
 *
 *  @pre len_cad1, len_cad2 son un enteros > 0.
 *       cad_original, cad_copiar son punteros no nulos a cadenas de caracteres.
-*  @return  se devuelve un entero == 0 si se pudo ejecutar la insercion y != 0 si 
-*           hubo error, los códigos de error están definidos en  #define y se suman
+*  @return  se devuelve un entero > 0  que es el largo de la cadena resultante si se pudo
+*           ejecutar la insercion y < 0 si hubo error, los códigos de error están 
+*           definidos en  #define y se suman
 *           para devolver el acumulado de los errores. Si se excede 
 *           la capacidad de cad_original no se inserta y se devuelve el error OVERFLOW_CADENA
 *  @post    cad_original se modifica, con la inserción de cad_insertar en el
@@ -162,6 +171,59 @@ int copia_cadenas(int len_cad1, int len_cad2, char cad_original[],
     int posicion;
     posicion = largo_cadena(len_cad1, cad_original);
     resultado = insertar_cadena(len_cad1, len_cad2,posicion, cad_original, cad_copiar);
+    if (resultado == 0)
+    {   
+        resultado = largo_cadena(len_cad1, cad_original);        
+    }
+    
     return resultado;
 }
-                    
+
+/** 
+* La funcion elimina los carácteres no alfanumericos de una cadena.
+* Se eliminan tambien los carácteres que no pertenecen al idioma inglés.
+*  @param len_cad es el largo disponible de cadena.
+*  @param cadena  es la direccion de la cadena que se modificará
+*
+*  @pre len_cad es un entero > 0.
+*       cadena es un puntero no nulo a una cadena de caracteres.
+*  @return  se devuelve un entero > 0  que es el largo de la cadena resultante si se pudo
+*           ejecutar la insercion y < 0 si hubo error, los códigos de error están 
+*           definidos en  #define y se suman para devolver el acumulado de los errores. 
+*  @post    cad_original se modifica de forma que no queden caracteres no alfanumericos
+*           y los que aparecen están en el mismo orden que antes de ejecutar la función.
+ **/
+int limpia_cadena(int len_cad, char cadena[])  
+{
+    char cad_auxiliar[len_cad];
+    int i;
+    int cuenta_caracteres = 0;
+    int resultado = 0;
+    resultado = largo_cadena(len_cad, cadena);
+    if (resultado > 0)
+    {
+        for (i = 0; i < resultado; i++)
+        {
+            if(es_alfanum(cadena[i]))
+            {
+                cad_auxiliar[i - cuenta_caracteres] = cadena[i];
+            }
+            else
+            {
+                cuenta_caracteres++;
+            }
+        }
+        
+    }
+    return resultado;
+}
+
+int es_alfanum(char c)
+{
+    int resultado = FALSE;
+    if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'))
+    {
+        resultado = TRUE;
+    }
+    return resultado;
+}
