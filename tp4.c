@@ -36,9 +36,10 @@ int main(int argc, char *argv[])
     strcpy(cadena1,"ASDFñas852/*as+");
     printf("%s", cadena1);
     printf("\n");
-    limpia_cadena(MAX_CADENA, cadena1);
+    resultado = limpia_cadena(MAX_CADENA, cadena1);
     printf("%s", cadena1);
     printf("\n");
+    printf("%d", resultado);
  return 0;
 }
 
@@ -215,12 +216,23 @@ int limpia_cadena(int len_cad, char cadena[])
                 cuenta_caracteres++;
             }
         }
-        
+        strcpy(cadena, cad_auxiliar);
+        resultado = largo_cadena(len_cad, cadena);
     }
-    strcpy(cadena, cad_auxiliar);
+    
+
     return resultado;
 }
 
+
+/** 
+* La funcion evalua si un caractes es alfanumérico.
+* No se consideran los carácteres que no pertenecen al idioma inglés.
+*  @param c es el caracter a evaluar.
+*  @pre c es un caracter del código ascii.
+*  @return  la función devuelve TRUE si c está entre a y z, A y Z o es un dígito
+*           y FALSE si no lo es.
+ **/
 int es_alfanum(char c)
 {
     int resultado = FALSE;
@@ -230,3 +242,4 @@ int es_alfanum(char c)
     }
     return resultado;
 }
+
