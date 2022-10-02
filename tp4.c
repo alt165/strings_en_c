@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
 
     insertar_cadena(MAX_CADENA,MAX_CADENA,2,cadena1,cadena2);
     printf("%s", cadena1);*/
-    strcpy(cadena1,"asdfgh");
+    strcpy(cadena1,"asd45ñaáfgh");
     printf("%s", cadena1);
     printf("\n");
     resultado = inversor_cadena(MAX_CADENA,cadena1);
@@ -244,6 +244,18 @@ int es_alfanum(char c)
     return resultado;
 }
 
+/** 
+* La funcion invierte el orden de los caracteres de una cadena.
+*  @param len_cad es el largo disponible de cadena.
+*  @param cadena  es la direccion de la cadena que se modificará
+*
+*  @pre len_cad es un entero > 0.
+*       cadena es un puntero no nulo a una cadena de caracteres.
+*  @return  se devuelve un entero > 0  que es el largo de la cadena resultante si se pudo
+*           ejecutar la inversion y < 0 si hubo error, los códigos de error están 
+*           definidos en  #define. 
+*  @post    cad_original se modifica de forma que quede invertida la cadena original.
+ **/
 int inversor_cadena(int len_cad, char cadena[])
 {
     char cadena_auxiliar[len_cad];
