@@ -7,10 +7,13 @@ José Lambrechts
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+#include <time.h>
 #define MAX_CADENA 50
 #define CADENA_SIN_TERMINADOR -1
 #define OVERFLOW_CADENA -3
 #define INDICE_INVALIDO -5
+#define PARAMETROS_INSUFICIENTES -7
 #define TRUE 1
 #define FALSE 0
 
@@ -30,24 +33,42 @@ int mayus_a_minus(int len_cad, char cadena[]);
 int es_palindromo(int len_cad, char cadena[]);
 
 int main(int argc, char *argv[])
-{   int resultado;
+/* se espera que argv[] contenga un dos cadenas que luego se utilizaran 
+para llamar a las funciones  */
+{   int resultado, posicion, cantidad;
     char cadena1[MAX_CADENA];
     char cadena2[MAX_CADENA];
     
-    /* strcpy(cadena1,"ASDF");
-    strcpy(cadena2,"bcdef");
+    if (argc > 2)
+    {
+        srand(time(0)); 
+        strcpy(cadena1, argv[1]);
+        strcpy(cadena2, argv[2]);
+        printf("La cadena 1 es: %s\n", cadena1);
+        printf("La cadena 2 es: %s\n", cadena2);
+        cantidad = contador_caracteres(MAX_CADENA, cadena1);
+        printf("cadena 1 tiene %d caracteres alfanumericos\n", cantidad);
+        cantidad = contador_simbolos(MAX_CADENA, cadena1);
+        printf("La cadena 1 tiene %d simbolos\n", cantidad);
+        printf("Se eliminan todos los simbolos\n");
+        limpia_cadena(MAX_CADENA, cadena1);
+        limpia_cadena(MAX_CADENA, cadena2);
+        printf("-> %s  -> %s sin simbolos\n", cadena1, cadena2);
 
-    insertar_cadena(MAX_CADENA,MAX_CADENA,2,cadena1,cadena2);
-    printf("%s", cadena1);*/
-    strcpy(cadena1,"aDFfda");
-    printf("%s", cadena1);
-    printf("\n");
-    strcpy(cadena2,"aaabca");
-    resultado = es_palindromo(MAX_CADENA, cadena1);
-    printf("%s", cadena1);
-    printf("\n");
-    printf("%d", resultado);
- return 0;
+        posicion = largo_cadena(MAX_CADENA, cadena1);
+        posicion = rand() % posicion; /* busco un valor aleatorio donde insertar */
+        printf("Se insertará cadena2 en la posicion %d\n", posicion);
+        insertar_cadena(MAX_CADENA,MAX_CADENA,posicion, cadena1, cadena2);
+        printf("%s\n", cadena1);
+        printf("se copia cadena 2 al final de la nueva cadena 1\n");
+        copia_cadenas(MAX_CADENA, MAX_CADENA, cadena1, cadena2);
+        printf("%s\n", cadena1);
+
+
+    }
+    
+    
+    return 0;
 }
 
 
