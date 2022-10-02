@@ -25,6 +25,8 @@ int es_alfanum(char c);
 int inversor_cadena(int len_cad, char cadena[]);
 int compara_cadena(int len_cad1, int len_cad2, char cadena1[], char cadena2[]);
 int contador_caracteres(int len_cad, char cadena[]);
+int contador_simbolos(int len_cad, char cadena[]);
+int mayus_a_minus(int len_cad, char cadena[]);
 
 int main(int argc, char *argv[])
 {   int resultado;
@@ -36,14 +38,14 @@ int main(int argc, char *argv[])
 
     insertar_cadena(MAX_CADENA,MAX_CADENA,2,cadena1,cadena2);
     printf("%s", cadena1);*/
-    strcpy(cadena1,"aaabc");
+    strcpy(cadena1,"aDFabc");
     printf("%s", cadena1);
     printf("\n");
     strcpy(cadena2,"aaabca");
-    resultado = compara_cadena(MAX_CADENA, MAX_CADENA, cadena2, cadena1);
-    /* printf("%s", cadena1); */
-    printf("\n");
-    printf("%d", resultado);
+    mayus_a_minus(MAX_CADENA, cadena1);
+    printf("%s", cadena1);
+    printf("\n");/* 
+    printf("%d", resultado); */
  return 0;
 }
 
@@ -335,7 +337,7 @@ int contador_caracteres(int len_cad, char cadena[])
     int contador = 0;
     int i, largo;
     largo = largo_cadena(len_cad, cadena);
-    for(i = 0; i < largo_cadena; i++)
+    for(i = 0; i < largo; i++)
     {
         if (es_alfanum(cadena[i]))
         {
@@ -351,7 +353,7 @@ int contador_simbolos(int len_cad, char cadena[])
     int contador = 0;
     int i, largo;
     largo = largo_cadena(len_cad, cadena);
-    for(i = 0; i < largo_cadena; i++)
+    for(i = 0; i < largo; i++)
     {
         if (!es_alfanum(cadena[i]))
         {
@@ -359,4 +361,17 @@ int contador_simbolos(int len_cad, char cadena[])
         }
     }
     return contador;
+}
+
+int mayus_a_minus(int len_cad, char cadena[])
+{
+    int i, largo;
+    largo = largo_cadena(len_cad, cadena);
+    for (i = 0; i < largo; i++)
+    {
+        if(cadena[i] > 'A' && cadena[i] < 'Z')
+        {
+            cadena[i] = cadena[i] + 32;
+        }
+    }
 }
