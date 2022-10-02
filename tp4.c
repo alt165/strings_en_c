@@ -24,6 +24,7 @@ int limpia_cadena(int len_cad, char cadena[]);
 int es_alfanum(char c);
 int inversor_cadena(int len_cad, char cadena[]);
 int compara_cadena(int len_cad1, int len_cad2, char cadena1[], char cadena2[]);
+int contador_caracteres(int len_cad, char cadena[]);
 
 int main(int argc, char *argv[])
 {   int resultado;
@@ -305,7 +306,6 @@ int compara_cadena(int len_cad1, int len_cad2, char cadena1[], char cadena2[])
     {
         /* obtener indice primer caracter distinto */
         i = i + 1;
-        /* printf("%d\n",i); */
     }
     if (cadena1[i] < cadena2[i])
     {
@@ -328,4 +328,35 @@ int compara_cadena(int len_cad1, int len_cad2, char cadena1[], char cadena2[])
         resultado = 1;
     }
     return resultado;
+}
+
+int contador_caracteres(int len_cad, char cadena[])
+{
+    int contador = 0;
+    int i, largo;
+    largo = largo_cadena(len_cad, cadena);
+    for(i = 0; i < largo_cadena; i++)
+    {
+        if (es_alfanum(cadena[i]))
+        {
+            contador++;
+        }
+    }
+    return contador;
+}
+
+
+int contador_simbolos(int len_cad, char cadena[])
+{
+    int contador = 0;
+    int i, largo;
+    largo = largo_cadena(len_cad, cadena);
+    for(i = 0; i < largo_cadena; i++)
+    {
+        if (!es_alfanum(cadena[i]))
+        {
+            contador++;
+        }
+    }
+    return contador;
 }
