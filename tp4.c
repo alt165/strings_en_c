@@ -23,6 +23,7 @@ int copia_cadenas(int len_cad1, int len_cad2, char cad_original[],
 int limpia_cadena(int len_cad, char cadena[]);
 int es_alfanum(char c);
 int inversor_cadena(int len_cad, char cadena[]);
+int compara_cadena(int len_cad1, int len_cad2, char cadena1[], char cadena2[]);
 
 int main(int argc, char *argv[])
 {   int resultado;
@@ -34,11 +35,12 @@ int main(int argc, char *argv[])
 
     insertar_cadena(MAX_CADENA,MAX_CADENA,2,cadena1,cadena2);
     printf("%s", cadena1);*/
-    strcpy(cadena1,"asd45ñaáfgh");
+    strcpy(cadena1,"aaabc");
     printf("%s", cadena1);
     printf("\n");
-    resultado = inversor_cadena(MAX_CADENA,cadena1);
-    printf("%s", cadena1);
+    strcpy(cadena2,"aaabca");
+    resultado = compara_cadena(MAX_CADENA, MAX_CADENA, cadena2, cadena1);
+    /* printf("%s", cadena1); */
     printf("\n");
     printf("%d", resultado);
  return 0;
@@ -269,6 +271,61 @@ int inversor_cadena(int len_cad, char cadena[])
             cadena_auxiliar[resultado - i - 1] = cadena[i];
         }
         strcpy(cadena, cadena_auxiliar);
+    }
+    return resultado;
+}
+
+/** 
+* La funcion compara dos cadenas para saber cual es mayor alfabeticamente.
+*  @param len_cad1 es el largo disponible de cadena1.
+*  @param cadena1  es la direccion de la cadena que se comparará.
+*  @param len_cad2 es el largo disponible de cadena2.
+*  @param cadena2  es la direccion de la cadena que se comparará.
+*
+*  @pre len_cad1, len_cad2 es un entero > 0.
+*       cadena1, cadena2 son punteros no nulos a una cadena de caracteres.
+*  @return  se devuelve un -1 si cadena1 > cadena2, 1 si cadena1 < cadena2 y
+            0 si cadena1 == cadena2
+*  @post    las cadenas no se modifican.
+ **/
+int compara_cadena(int len_cad1, int len_cad2, char cadena1[], char cadena2[])
+{
+    int len_minimo, resultado;
+    int i = 0;
+    if (largo_cadena(len_cad1, cadena1) < largo_cadena(len_cad2, cadena2))
+    {
+        len_minimo = largo_cadena(len_cad1, cadena1);
+    }
+    else
+    {
+        len_minimo = largo_cadena(len_cad2, cadena2);
+    }
+
+    while (cadena1[i] == cadena2[i] && i < len_minimo)
+    {
+        /* obtener indice primer caracter distinto */
+        i = i + 1;
+        /* printf("%d\n",i); */
+    }
+    if (cadena1[i] < cadena2[i])
+    {
+        resultado = 1;
+    }
+    else if (cadena1[i] > cadena2[i])
+    {
+        resultado = -1;
+    }
+    else if ((largo_cadena(len_cad1, cadena1) == largo_cadena(len_cad2, cadena2)))
+    {
+        resultado = 0;        
+    }
+    else if (largo_cadena(len_cad1, cadena1) < largo_cadena(len_cad2, cadena2))
+    {
+        resultado = -1;
+    }
+    else
+    {
+        resultado = 1;
     }
     return resultado;
 }
